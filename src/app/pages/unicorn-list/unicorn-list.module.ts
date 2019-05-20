@@ -4,7 +4,7 @@ import {CommonModule} from '@angular/common';
 import {UnicornListRoutingModule} from './unicorn-list-routing.module';
 import {UnicornListComponent} from './unicorn-list.component';
 import {UnicornCardComponent} from './unicorn-card/unicorn-card.component';
-import {MatButtonModule, MatCardModule} from '@angular/material';
+import {MatButtonModule, MatCardModule, MatIconModule} from '@angular/material';
 
 @NgModule({
     declarations: [UnicornListComponent, UnicornCardComponent],
@@ -13,6 +13,7 @@ import {MatButtonModule, MatCardModule} from '@angular/material';
         UnicornListRoutingModule,
         MatCardModule,
         MatButtonModule,
+        MatIconModule
     ]
 })
 export class UnicornListModule {

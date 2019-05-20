@@ -6,7 +6,7 @@ import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NavComponent} from './nav/nav.component';
 import {LayoutModule} from '@angular/cdk/layout';
-import {MatButtonModule, MatIconModule, MatListModule, MatSidenavModule, MatToolbarModule} from '@angular/material';
+import {MatBadgeModule, MatButtonModule, MatIconModule, MatListModule, MatSidenavModule, MatToolbarModule} from '@angular/material';
 import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
@@ -24,6 +24,7 @@ import {HttpClientModule} from '@angular/common/http';
         MatButtonModule,
         MatSidenavModule,
         MatIconModule,
+        MatBadgeModule,
         MatListModule
     ],
     providers: [],

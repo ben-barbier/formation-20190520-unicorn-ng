@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Unicorn} from '../../../unicorns.model';
+import {CartService} from '../../../shared/services/cart.service';
 
 @Component({
     selector: 'uni-unicorn-card',
@@ -14,7 +15,7 @@ export class UnicornCardComponent implements OnInit {
     @Output() delete = new EventEmitter<Unicorn>();
 
 
-    constructor() {
+    constructor(private cartService: CartService) {
     }
 
     ngOnInit() {
@@ -24,4 +25,16 @@ export class UnicornCardComponent implements OnInit {
         this.delete.emit(this.unicorn);
     }
 
+    favMe() {
+        if (this.cartService.isInCart(this.unicorn)) {
+            this.cartService.removeUnicornFromCart(this.unicorn);
+        } else {
+            this.cartService.addUnicornToCart(this.unicorn);
+        }
+    }
+
+    getColor()  {
+        return this.cartService.isInCart(this.unicorn)
+          ? 'warn' : 'primary';
+    }
 }
