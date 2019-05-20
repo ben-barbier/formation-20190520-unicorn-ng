@@ -1,15 +1,16 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import {UnicornListComponent} from './unicorn-list.component';
 
 const routes: Routes = [
     {
         path: '',
-        loadChildren: './pages/unicorn-list/unicorn-list.module#UnicornListModule'
+        component: UnicornListComponent
     }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class UnicornListRoutingModule { }
