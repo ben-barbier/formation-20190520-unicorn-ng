@@ -4,6 +4,7 @@ import {from, Observable} from 'rxjs';
 import {Unicorn} from './unicorns.model';
 import {flatMap, map, mergeMap, pluck, toArray} from 'rxjs/operators';
 import {CapacitiesApiService} from './shared/services/capacities-api.service';
+import {reduce} from 'rxjs/internal/operators/reduce';
 
 @Injectable({
     providedIn: 'root'
@@ -43,5 +44,32 @@ export class UnicornsApiService {
 
     public deleteOne(unicorn: Unicorn) {
         return this.http.delete(this.basePath + '/' + unicorn.id);
+    }
+
+    public getAverageAge(): Observable<number> {
+        const currentYear = new Date().getFullYear();
+        return this.getAll().pipe(
+            flatMap(e => e),
+            pluck('birthyear'),
+            map((birthyear: number): number => currentYear - birthyear),
+            reduce((acc: any, age) => {
+                return {
+                    sum: acc.sum + age,
+                    count: acc.count + 1
+                };
+            }, {sum: 0, count: 0}),
+            map(acc => acc.sum / acc.count),
+        );
+    }
+
+    public getAverageAge2(): Observable<number> {
+        const currentYear = new Date().getFullYear();
+        return this.getAll().pipe(
+            map(unicorns =>
+                unicorns.reduce((acc, u): number => {
+                    return acc + currentYear - u.birthyear;
+                }, 0) / unicorns.length
+            )
+        );
     }
 }

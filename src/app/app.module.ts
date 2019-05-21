@@ -8,6 +8,9 @@ import {NavComponent} from './nav/nav.component';
 import {LayoutModule} from '@angular/cdk/layout';
 import {MatBadgeModule, MatButtonModule, MatIconModule, MatListModule, MatSidenavModule, MatToolbarModule} from '@angular/material';
 import {HttpClientModule} from '@angular/common/http';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
     declarations: [
@@ -15,7 +18,7 @@ import {HttpClientModule} from '@angular/common/http';
         NavComponent
     ],
     imports: [
-        BrowserModule,
+        BrowserModule.withServerTransition({ appId: 'serverApp' }),
         AppRoutingModule,
         HttpClientModule,
         BrowserAnimationsModule,
@@ -25,7 +28,9 @@ import {HttpClientModule} from '@angular/common/http';
         MatSidenavModule,
         MatIconModule,
         MatBadgeModule,
-        MatListModule
+        MatListModule,
+        ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+        RouterModule
     ],
     providers: [],
     bootstrap: [AppComponent]
