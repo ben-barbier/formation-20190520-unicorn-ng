@@ -1,10 +1,11 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {from, Observable} from 'rxjs';
+import {from, Observable, Subject} from 'rxjs';
 import {Unicorn} from './unicorns.model';
 import {flatMap, map, mergeMap, pluck, toArray} from 'rxjs/operators';
 import {CapacitiesApiService} from './shared/services/capacities-api.service';
 import {reduce} from 'rxjs/internal/operators/reduce';
+import * as io from 'socket.io-client';
 
 @Injectable({
     providedIn: 'root'
@@ -25,6 +26,31 @@ export class UnicornsApiService {
                 map(u => ({...u, weight: u.weight + 10})),
                 toArray()
             );
+    }
+
+    public getOne(id: number): Observable<Unicorn> {
+        return this.http.get<Unicorn>(this.basePath + '/' + id);
+    }
+
+    public get counter(): Subject<number> {
+        const socket = io('http://localhost:3101/count');
+        const source = new Observable(observer => {
+            socket.on('count', (data) => {
+                console.log('Received message from Websocket Server');
+                observer.next(data);
+            });
+            return () => {
+                socket.disconnect();
+            };
+        });
+        const destination = {
+            next: (data: object) => {
+                socket.emit('ISawOne');
+                // socket.emit('message', JSON.stringify(data));
+            },
+        };
+
+        return Subject.create(destination, source);
     }
 
     public getAllWithCapacityLabel(): Observable<Unicorn[]> {

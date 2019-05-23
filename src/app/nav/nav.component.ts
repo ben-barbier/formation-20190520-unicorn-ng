@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {CartService} from '../shared/services/cart.service';
 import {Unicorn} from '../unicorns.model';
+import {UnicornsApiService} from '../unicorns-api.service';
 
 @Component({
     selector: 'uni-nav',
@@ -13,11 +14,19 @@ import {Unicorn} from '../unicorns.model';
 export class NavComponent {
 
     isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
-        .pipe(
-            map(result => result.matches)
-        );
+        .pipe(map(result => result.matches));
+
     public cart$: Observable<Unicorn[]> = this.cartSvc.cart$;
-    constructor(private breakpointObserver: BreakpointObserver, private cartSvc: CartService) {
+
+    public counter$ = this.unicornService.counter;
+
+    constructor(private breakpointObserver: BreakpointObserver,
+                private cartSvc: CartService,
+                private unicornService: UnicornsApiService) {
+
     }
 
+    sawOne() {
+        this.counter$.next();
+    }
 }

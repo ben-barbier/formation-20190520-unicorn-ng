@@ -21,6 +21,7 @@
                 <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
             </button>
             <span>unicorn-ng</span>
+            <span (click)="sawOne()">!{{counter$ | async}}!</span>
             <mat-icon [matBadge]="(cart$ | async).length">favorite</mat-icon>
         </mat-toolbar>
         <router-outlet></router-outlet>

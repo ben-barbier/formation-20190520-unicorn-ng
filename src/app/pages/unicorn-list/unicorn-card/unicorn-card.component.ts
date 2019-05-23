@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Unicorn} from '../../../unicorns.model';
 import {CartService} from '../../../shared/services/cart.service';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'uni-unicorn-card',
@@ -15,7 +16,9 @@ export class UnicornCardComponent implements OnInit {
 
     @Output() delete = new EventEmitter<Unicorn>();
 
-    constructor(private cartService: CartService) {
+    constructor(
+        private cartService: CartService,
+        private router: Router) {
     }
 
     ngOnInit() {
@@ -36,5 +39,9 @@ export class UnicornCardComponent implements OnInit {
 
     getColor() {
         return this.cartService.isInCart(this.unicorn) ? 'warn' : 'primary';
+    }
+
+    goDetail() {
+        this.router.navigateByUrl('/detail/' + this.unicorn.id);
     }
 }
